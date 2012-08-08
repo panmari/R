@@ -4,15 +4,37 @@
  
 CaptureRecapture <- function(m,k,X,alpha=0.05)
 {
+	# m+k-X is a trivial lower bound
+	# for upper bound
+	# case: X = 0, b(X,alpha) = b(X,a/2) = inf 
+	a2 <- m + k - X
+	while (phyper(X,m,a2-m,k) <= alpha/2) {
+		a2 <- a2 + 1
+	}
+	a1 <- a2
+	while (phyper(X,m,a1-m,k) <= alpha) {
+		a1 <- a1 + 1
+	}
+	
+	if (X == 0) {
+		b1 = b2 = Inf
+	} 
+	else {
+		b1 = m+k-X
+		while (phyper(X-1,m,b1+1-m,k) < 1-alpha) {
+			b1 = b1 + 1
+		}
+		b2 = b1
+		while (phyper(X-1,m,b2+1-m,k) < 1-alpha/2) {
+			b2 = b2 + 1
+		}
+	}
 
-	... compute point estimator and the ...
-	... bounds a2, a1, b1, b2 for N     ...
-
-	return(list(point.estimator=...,
-		lower.bound=...,
-		upper.bound=...,
-		confidence.interval=c(...,...),
-		confidence.level=...))
+	return(list(point.estimator=round(k*m/X),
+		lower.bound=a1,
+		upper.bound=b1,
+		confidence.interval=c(a2,b2),
+		confidence.level=1-alpha))
 }
 
 

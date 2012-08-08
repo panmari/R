@@ -276,7 +276,7 @@ for (N0 in N0min:N0max)
 # - confidence.level: 1-alpha.
 
 
-source("Exercise2_solved.R")
+source("Exercise2.R")
 
 CaptureRecapture(20,20,3)
 CaptureRecapture(m=20,k=20,X=3,alpha=0.05)
