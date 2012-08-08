@@ -22,6 +22,8 @@
 help.search("binomial distribution")
 ? Binomial
 
+### Binominal Distributions
+
 
 # Illustrate binomial distributions
 # with a multiple plot:
@@ -43,6 +45,7 @@ for (j in 1:9)
 # One interesting parameter is "mai"
 # ("ma(rgin sizes in) i(nches)").
 # An example:
+# same as css margins, less space between plots
 par(mfcol=c(3,3),mai=c(0.3,0.3,0.5,0))
 pv <- seq(from=0.1,to=0.9,by=0.1)
 for (j in 1:9)
@@ -54,7 +57,7 @@ for (j in 1:9)
 # All parameters cex, cex.... which control
 # the font size of axis labels, numbers etc.
 
-
+# Computes confidence intervalls for p!
 ? binom.test
 
 # Short explanation of the parameters:
@@ -98,6 +101,8 @@ x <- 122
 binom.test(x,n)
 binom.test(x,n,conf.level=0.99)
 
+# p-value = plausibility of null-hypothesis
+
 # By default, binom.test() computes a
 # confidence interval for the unknown p.
 # If one is interested only in an upper bound
@@ -108,9 +113,9 @@ binom.test(x,n,alternative="less")
 binom.test(x,n,alternative="greater")
 binom.test(x,n,alternative="two.sided")
 
-# Of the 48 attendees of this course,
-# 6 people smoke regularly.
-# We pretend that the 48 attendees are a
+# Of the 60 attendees of this course,
+# 8 people smoke regularly.
+# We pretend that the 60 attendees are a
 # random subsample of the population of
 # all students in Bern, and p is the unknown
 # proportion regular smokers within this
@@ -123,7 +128,6 @@ binom.test(8,60,conf.level=0.99)
 # Use "scan()" to generate and store a "random vector"
 # containing about 70 entries in {1,2}:
 data <- scan("")
-
 # Question: Are you a reliable random generator?
 
 # First test:
@@ -137,8 +141,9 @@ binom.test(x,n)
 # We determine n2 = n-1 and
 # x2 = number of indices i in {1,2,...,n-1}
 #      such that data[i] != data[i+1]:
+data[1:(n-1)] != data[2:n] # if two following numbers are not the same => true
 n2 <- n-1
-x2 <- sum(data[1:(n-1)] != data[2:n])
+x2 <- sum(data[1:(n-1)] != data[2:n]) #how many times did the coin change immediately?
 binom.test(x2,n2)
 
 
@@ -155,6 +160,21 @@ binom.test(x2,n2)
 #   genotype aa. Is
 #      p = Prob(child = aa | parents are both Aa)
 #        = 1/4?
+
+
+binom.test(127, 1000, p=0.1, alternative="greater", conf.level=0.99)
+
+binom.test(9,52, p=1/4, alternative="two.sided")
+
+? binom.test
+
+
+
+
+
+
+
+
 
 
 # Try to do this yourself, before reading on!
