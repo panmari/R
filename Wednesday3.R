@@ -12,16 +12,16 @@
 
 # Example: StatWiSo2003.txt
 
-ds <- read.table(file="StatWiSo2003.txt")
+ds <- read.table(file="StatWiSo2003_ger.txt")
 str(ds)
 # Something's wrong; the first line was interpreted
 # as an observation!
 
-ds <- read.table(file="StatWiSo2003.txt",header=TRUE)
+ds <- read.table(file="StatWiSo2003_ger.txt",header=TRUE)
 # "header=TRUE" means: The first line contains
 # the names of variables!
 
-ds <- read.table(file="StatWiSo2003.txt",header=TRUE,sep="\t")
+ds <- read.table(file="StatWiSo2003_ger.txt",header=TRUE,sep="\t")
 # "sep="\t"" means: Columns are separated by tabulators.
 
 
@@ -41,6 +41,9 @@ str(ds) # str(ucture) of ds
 
 ds$ZufZiffer <- factor(ds$ZufZiffer)
 ds$ZufZiffer <- factor(ds$ZufZiffer,levels=0:9)
+
+# also months are categorical
+ds$GebMonat <- factor(ds$GebMonat,levels=1:12)
 
 # Analysing single factors and two factors simultaneously:
 
@@ -80,7 +83,7 @@ pie(table(ds$ZufZiffer),radius=1,col=col)
 barplot(table(ds$ZufZiffer),col=col)
 
 
-
+# Can be accessed like a matrix
 # Accessing particular components of a data frame:
 
 ds[3,4] # value of variable 4 for observation no. 3.
