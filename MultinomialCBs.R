@@ -1,4 +1,4 @@
-MultinomialCBs <- function(TX, overall.alpha=0.05)
+MultinomialCBs <- function(TX, p0, overall.alpha=0.05)
 {
 	levels = length(TX)
 	n = sum(TX)
@@ -13,5 +13,5 @@ MultinomialCBs <- function(TX, overall.alpha=0.05)
 		a[j] <- result$conf.int[1]
 		b[j] <- result$conf.int[2]
 	}
-	return(cbind(TX,p.emp,a,b))
+	return(cbind(TX,p.emp,a,b, p0))
 }

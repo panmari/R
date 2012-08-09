@@ -1,4 +1,26 @@
 ### Hand-in-Exercise 3 ###
+
+### Configuration values:
+ds <- read.table(file="StatWiSo2006.txt",header=TRUE,sep="\t")
+removeNAs = false
+
+### Task 1
+MWs = ds[11:20]
+# We could remove all NAs:
+if (removeNAs)
+{
+  MWs <- MWs[complete.cases(MWs),]
+}
+MWs$Ones = rowSums(MWs[1:10])
+MWs$Changes = rowSums(MWs[1:9] != MWs[2:10])
+
+### Task 2
+par(mfrow=c(2,1))
+barplot(table(factor(MWs$Ones, levels=0:10)))
+barplot(table(factor(MWs$Changes, levels=0:9)))
+
+### Task 3 ZOMFG I DUNO LOL
+
 # 
 # Analyze the data set "StatWiSo2006.txt",
 # precisely, the variables MW1, MW2, ..., MW10.
