@@ -27,7 +27,7 @@ m <- 20
 k <- 20
 N0 <- c(40,50,60,70)
 x <- 0:min(m,k)
-alpha <- 0.1 		#fixed error bound, typically 5%
+alpha <- 0.1
 
 # Illustrate the critical values c(N0):
 
@@ -79,14 +79,16 @@ for (N0 in N0min:N0max)
 # will be a blue point with probability at least
 # 1 - alpha, because by definition of the critical
 # values c(N0),
-#    P(X <= c(N)) <= alpha .
+#    P(X <= c(N)) <= alpha.
 # 
 # These considerations lead to a
 # lower (1 - alpha)-confidence bound for N:
 #    a(X,alpha) = minimal value N0 such that
-#                 X > c(N0)
-#               = minimal value N0 such that
-#                 phyper(X,m,N0-m,k) > alpha !
+#                 X > c(N0).
+# Note that X > c(N0) if, and only if,
+# phyper(X,m,N0-m,k) > alpha. Thus
+#    a(X,alpha) = minimal value N0 such that
+#                 phyper(X,m,N0-m,k) > alpha.
 # 
 # Interpretation/Use:
 # With confidence 1-alpha we may claim that
@@ -175,9 +177,11 @@ for (N0 in N0min:N0max)
 # These considerations lead to an
 # upper (1 - alpha)-confidence bound for N:
 #    b(X,alpha) = maximal value N0 such that
-#                 X <= d(N0)
-#               = maximal value N0 such that
-#                 phyper(X-1,m,N0-m,k) < 1 - alpha !
+#                 X <= d(N0).
+# Note that X <= d(N0) if, and only if,
+# phyper(X-1,m,N0-m,k) < 1-alpha. Hence
+#    b(X,alpha) = maximal value N0 such that
+#                 phyper(X-1,m,N0-m,k) < 1 - alpha.
 # 
 # Interpretation/Use:
 # With confidence 1-alpha we may claim that
@@ -205,6 +209,11 @@ for (N0 in N0min:N0max)
 #    m, k  (design of the capture-recapture experiment)
 #    X     (observation in the experiment, random)
 #    alpha (error bound).
+# 
+# An inportant fact which is not obvious but can be
+# proved that for any argument x, phyper(x,m,N0-m,k) is
+# monotone increasing in N0. This helps to compute
+# the confidence bounds explicitly...
 # 
 # We first compute the lower bound a2 of our
 # (1-alpha)-confidence interval, i.e.
@@ -234,7 +243,7 @@ for (N0 in N0min:N0max)
 # phyper(X-1,m,b1+1-m,k) < 1-alpha we increase b1 by one...
 # 
 # Then we set b2 = b1. As long as
-# phyper(X-1,m,b1+1-m,k) < 1-alpha/2 we increase b2 by one...
+# phyper(X-1,m,b2+1-m,k) < 1-alpha/2 we increase b2 by one...
 
 
 # The previous computations may be performed with
@@ -276,7 +285,61 @@ for (N0 in N0min:N0max)
 # - confidence.level: 1-alpha.
 
 
-source("Exercise2.R")
+# Example output for checking your program:
+# 
+# > source("Exercise2.R")
+# 
+# > CaptureRecapture(20,20,3)
+# $point.estimator
+# [1] 133
+# 
+# $lower.bound
+# [1] 64
+# 
+# $upper.bound
+# [1] 459
+# 
+# $confidence.interval
+# [1]  59 601
+# 
+# $confidence.level
+# [1] 0.95
+# 
+# > CaptureRecapture(20,20,3,alpha=0.01)
+# $point.estimator
+# [1] 133
+# 
+# $lower.bound
+# [1] 55
+# 
+# $upper.bound
+# [1] 845
+
+# $confidence.interval
+# [1]   52 1085
+# 
+# $confidence.level
+# [1] 0.99
+# 
+# > CaptureRecapture(20,40,0)
+# $point.estimator
+# [1] Inf
+# 
+# $lower.bound
+# [1] 298
+# 
+# $upper.bound
+# [1] Inf
+# 
+# $confidence.interval
+# [1] 248 Inf
+# 
+# $confidence.level
+# [1] 0.95
+
+
+
+source("Exercise2_solved.R")
 
 CaptureRecapture(20,20,3)
 CaptureRecapture(m=20,k=20,X=3,alpha=0.05)
