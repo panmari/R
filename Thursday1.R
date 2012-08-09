@@ -12,6 +12,11 @@
 # Observed values in sample:
 #    X[1], X[2], ..., X[n].
 # 
+# Example for X = "random digit"
+# p_j = P(a "typical person would chouse x_j)
+# x_j = j -1, j = 1:10
+# Null hypothesis: p_j = 0.1 for all j (so random numbers are evenly distributed)
+
 # Statistical model: For a generic observation X,
 #    Prob(X = x[j]) = p[j]
 # with unknown probabilities
@@ -45,6 +50,7 @@ TX
 # named components:
 str(TX)
 
+# The one "NA" is automatically removed
 n <- sum(TX)
 n
 
@@ -55,7 +61,7 @@ round(p.emp,digits=3)
 
 
 # What binom.test() really achieves:
-result <- binom.test(TX[1],n)
+result <- binom.test(TX[1],n, p=0.1)
 result
 str(result)
 # Hence binom.test returns a list,
@@ -76,7 +82,7 @@ b <- rep(1,10)  # upper bounds
 for (j in 1:10)
 {
 	result <- binom.test(TX[j],n,
-		conf.level=1-0.05/10)
+		conf.level=1-0.05/10) #overall 95% confidence (over all intervalls
 	a[j] <- result$conf.int[1]
 	b[j] <- result$conf.int[2]
 }
@@ -114,6 +120,21 @@ MultinomialCBs(TX)
 help.search("Pearson")
 ? chisq.test
 
+# so here use:
+chisq.test(TX) # number of occurences
+
+# Explanation:
+# Chi-squared goodness-of-fit test (by pearson)
+# test statistic = some complex sum
+# Compare the value of this test statistic with its distribution under
+# the null hypothesis. 
+# - For "large" n*min(p_j) its like a chi-square(L-1)
+# - Use monte-carlo sampling -> set "simulate.p.value=TRUE"
+#   (B= is the number of repetitions), this is more reliable!
+
+# result: df = degrees of freedom
+# Doesn't give any hints in which direction the deviation is.
+
 # Try to apply this procudure to our current example.
 
 # Try to apply this procedure with "simulated p-values".
@@ -147,5 +168,7 @@ help.search("Pearson")
 # Think first what this means for the probabilities
 # p[j]. Then use MultinomialCBs() to answer this question
 # (if possible).
+TX2 <- c(166761, 151296, 164804, 158973, 156455, 149251, 159924, 145184, 141164, 154777, 150678, 163882)
 
-
+# => in winter & july (sultry), more people than expected 
+# (if they were evenly distributed) are dying. Oh noez!
