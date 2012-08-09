@@ -169,6 +169,12 @@ chisq.test(TX) # number of occurences
 # p[j]. Then use MultinomialCBs() to answer this question
 # (if possible).
 TX2 <- c(166761, 151296, 164804, 158973, 156455, 149251, 159924, 145184, 141164, 154777, 150678, 163882)
+MultinomialCBs(TX2) -> resultTX2
+p0 = c(31,28,31,30,31,30,31,31,30,31,30,31)/365 # expected values
 
+cbind(resultTX2, p0)
 # => in winter & july (sultry), more people than expected 
 # (if they were evenly distributed) are dying. Oh noez!
+
+# with chi square test:
+chisq.test(TX2, p=p0)
