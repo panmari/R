@@ -44,20 +44,20 @@
 #                    ||  promoted | not promoted ||
 #       -----------------------------------------------
 #        Mr. Miller  ||   T       | 24-T         || 24
-#        Mrs. Miller ||  35-T     | T-11         || 24
+#        Mrs. Miller ||  35-T     | 24 - 13 + T  || 24
 #       -----------------------------------------------
 #                    ||  35       | 13           || 48
 # with
 #       T ~ hyper(35, 13, 24) .
 
 
-x <- 11:24
+x <- 11:24 # possible values, bc every cell has to be >= 0
 dx <- dhyper(x,35,13,24)
 barplot(dx,names.arg=x)
 
 # P-values
 # (probabilities are computed assuming the null hypothesis):
-# * pv.rs = 1 - phyper(T-1,35,13,24)
+# * pv.rs = 1 - phyper(T-1,35,13,24)				# why the -1?!?!?
 #   Right-sided p-value: Is T "suspiciously large"?
 # * pv.ls = phyper(T,35,13,24)
 #   Left-sided p-value: Is T "suspiciously small"?
@@ -119,7 +119,7 @@ fisher.test(x=x,alternative="greater")  # for pv.rs
 #    pj/(1-pj)  with procedure j,
 # and the odds ratio of success with procedure 1 versus
 # procedure 2 equals
-#    OR = (p1/(1-p1)) / (p1/(1-p2))
+#    OR = (p1/(1-p1)) / (p2/(1-p2))     #what an unsightful name for a variable >.<
 #       = p1*(1-p2) / (p2*(1-p1)) .
 # 
 # Note that
