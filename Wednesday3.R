@@ -12,16 +12,16 @@
 
 # Example: StatWiSo2003.txt
 
-ds <- read.table(file="StatWiSo2003_ger.txt")
+ds <- read.table(file="StatWiSo2003.txt")
 str(ds)
 # Something's wrong; the first line was interpreted
 # as an observation!
 
-ds <- read.table(file="StatWiSo2003_ger.txt",header=TRUE)
+ds <- read.table(file="StatWiSo2003.txt",header=TRUE)
 # "header=TRUE" means: The first line contains
 # the names of variables!
 
-ds <- read.table(file="StatWiSo2003_ger.txt",header=TRUE,sep="\t")
+ds <- read.table(file="StatWiSo2003.txt",header=TRUE,sep="\t")
 # "sep="\t"" means: Columns are separated by tabulators.
 
 
@@ -120,3 +120,30 @@ sum(is.na(ds$MonMiete))
 
 # Another way to obtain this information:
 table(ds$MonMiete>0)
+
+# Some stuff with Boxplots:
+### Box-(and-Whiskers)-Plots
+# careful, even less precise than histogram!
+# The box signifies the quantils:
+# - lower line: the 25% quantile (1. quartile)
+# - middle(fat) line: the 50% quantile (medium, 2. quartile)
+# - upper line: the 75 % quantile (3. quartile)
+# stroke stuff: 
+# - upper line: largest observation which is <= 3. quartile + 1.5*Interquartilerange
+# - lower line: analog
+# the dots:
+# - "very large/small observations"
+boxplot(ds$Alter ~ ds[["Geschlecht"]])
+boxplot(ds[["Alter"]] ~ ds[["Rauchen"]])
+
+
+# wilcox test for seeing if difference is significant
+wilcox.test(ds[["Alter"]] ~ ds[["Geschlecht"]])
+
+wilcox.test(ds[["Alter"]] ~ ds[["Rauchen"]])
+
+# One way to solve this problem: 
+# Replace the group variable with a binary one:
+
+boxplot(ds[["Alter"]] ~ pmin(as.numeric(ds[["Rauchen"]]), 1))
+wilcox.test(ds[["Alter"]] ~ pmin(as.numeric(ds[["Rauchen"]]), 1))
